@@ -1,9 +1,12 @@
 package com.liferay.docs.guestbook.portlet;
 
+import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.Guestbook;
-import com.liferay.docs.guestbook.service.EntryServiceUtil;
-import com.liferay.docs.guestbook.service.GuestbookServiceUtil;
+import com.liferay.docs.guestbook.service.EntryService;
+//import com.liferay.docs.guestbook.service.EntryServiceUtil;
+import com.liferay.docs.guestbook.service.GuestbookService;
+//import com.liferay.docs.guestbook.service.GuestbookServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -25,6 +28,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
 	immediate = true,
@@ -32,7 +36,7 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.display-category=category.sample",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.scopeable=true",
-		"javax.portlet.name=guestbook",
+		"javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK,
 		"javax.portlet.display-name=Guestbook",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/html/guestbookmvcportlet/view.jsp",
@@ -44,6 +48,19 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class GuestbookMVCPortlet extends MVCPortlet {
+	
+	private GuestbookService _guestbookService;
+	private EntryService _entryService;
+	
+	@Reference(unbind = "-")
+	protected void setGuestbookService(GuestbookService guestbookService) {
+		_guestbookService = guestbookService;
+	}
+	
+	@Reference(unbind = "-")
+	protected void setEntryService(EntryService entryService) {
+		_entryService = entryService;
+	}
 	
 	public void addEntry(ActionRequest request, ActionResponse response)
 		       throws PortalException, SystemException {
@@ -61,9 +78,13 @@ public class GuestbookMVCPortlet extends MVCPortlet {
 
 		       try {
 
-		         EntryServiceUtil.updateEntry(serviceContext.getUserId(),
+		         /*EntryServiceUtil.updateEntry(serviceContext.getUserId(),
 		              guestbookId, entryId, userName, email, message,
-		              serviceContext);
+		              serviceContext);*/
+		         
+		         _entryService.updateEntry(serviceContext.getUserId(),
+			              guestbookId, entryId, userName, email, message,
+			              serviceContext);
 
 		         SessionMessages.add(request, "entryAdded");
 
@@ -85,8 +106,11 @@ public class GuestbookMVCPortlet extends MVCPortlet {
 		            else {
 
 		       try {
-		         EntryServiceUtil.addEntry(serviceContext.getUserId(),
-		              guestbookId, userName, email, message, serviceContext);
+		         /*EntryServiceUtil.addEntry(serviceContext.getUserId(),
+		              guestbookId, userName, email, message, serviceContext);*/
+		         
+		         _entryService.addEntry(serviceContext.getUserId(),
+			              guestbookId, userName, email, message, serviceContext);
 
 		         SessionMessages.add(request, "entryAdded");
 
@@ -117,7 +141,8 @@ public class GuestbookMVCPortlet extends MVCPortlet {
 
 	       response.setRenderParameter("guestbookId", Long.toString(guestbookId));
 
-	       EntryServiceUtil.deleteEntry(entryId, serviceContext);
+	       //EntryServiceUtil.deleteEntry(entryId, serviceContext);
+	       _entryService.deleteEntry(entryId, serviceContext);
 
 	    } catch (Exception e) {
 	       System.out.println(e);
@@ -135,7 +160,10 @@ public class GuestbookMVCPortlet extends MVCPortlet {
 	    String name = ParamUtil.getString(request, "name");
 
 	    try {
-	        GuestbookServiceUtil.addGuestbook(serviceContext.getUserId(),
+	        /*GuestbookServiceUtil.addGuestbook(serviceContext.getUserId(),
+	                name, serviceContext);*/
+	        
+	        _guestbookService.addGuestbook(serviceContext.getUserId(),
 	                name, serviceContext);
 
 	        SessionMessages.add(request, "guestbookAdded");
@@ -161,11 +189,17 @@ public class GuestbookMVCPortlet extends MVCPortlet {
 
 	        long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 
-	        List<Guestbook> guestbooks = GuestbookServiceUtil
+	        /*List<Guestbook> guestbooks = GuestbookServiceUtil
+	                .getGuestbooks(groupId);*/
+	        
+	        List<Guestbook> guestbooks = _guestbookService
 	                .getGuestbooks(groupId);
 
 	        if (guestbooks.size() == 0) {
-	            Guestbook guestbook = GuestbookServiceUtil.addGuestbook(
+	            /*Guestbook guestbook = GuestbookServiceUtil.addGuestbook(
+	                    serviceContext.getUserId(), "Main", serviceContext);*/
+	            
+	            Guestbook guestbook = _guestbookService.addGuestbook(
 	                    serviceContext.getUserId(), "Main", serviceContext);
 
 	            guestbookId = guestbook.getGuestbookId();
