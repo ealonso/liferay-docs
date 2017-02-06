@@ -3,11 +3,20 @@
 <%
         Guestbook guestbook = null;
 
+        String redirect = ParamUtil.getString(request, "redirect");
+
         long guestbookId = ParamUtil.getLong(request, "guestbookId");
 
         if (guestbookId > 0) {
                 guestbook = GuestbookLocalServiceUtil.getGuestbook(guestbookId);
         }
+        
+        String headerTitle = (guestbook == null) ? "Add Guestbook" : guestbook.getName();
+
+        portletDisplay.setShowBackIcon(true);
+        portletDisplay.setURLBack(redirect);
+
+        renderResponse.setTitle(headerTitle);
 %>
 
 <portlet:renderURL var="viewURL">

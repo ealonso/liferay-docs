@@ -6,6 +6,7 @@ import org.osgi.service.component.annotations.Reference;
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
+import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.portal.kernel.model.Portlet;
 
 @Component(
@@ -20,12 +21,12 @@ public class GuestbookPanelApp extends BasePanelApp {
 	
 	@Override
 	public String getPortletId() {
-		return "guestbook-admin";
+		return GuestbookPortletKeys.GUESTBOOK_ADMIN;
 	}
 
 	@Override
 	@Reference(
-		target = "(javax.portlet.name=guestbook-admin)",
+		target = "(javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK_ADMIN + ")",
 		unbind = "-"
 	)
 	public void setPortlet(Portlet portlet) {

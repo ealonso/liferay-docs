@@ -18,6 +18,7 @@
                                 value="<%=String.valueOf(guestbook.getGuestbookId()) %>" />
                         <portlet:param name="mvcPath"
                                 value="/html/guestbookadminmvcportlet/edit_guestbook.jsp" />
+                        <portlet:param name="redirect" value="${currentURL}" />
                 </portlet:renderURL>
 
                 <liferay-ui:icon image="edit" message="Edit"

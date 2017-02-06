@@ -19,8 +19,10 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 
+import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.docs.guestbook.model.Guestbook;
-import com.liferay.docs.guestbook.service.GuestbookServiceUtil;
+import com.liferay.docs.guestbook.service.GuestbookService;
+//import com.liferay.docs.guestbook.service.GuestbookServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -31,17 +33,18 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
 	immediate = true,
 	property = {
         "com.liferay.portlet.display-category=category.hidden",
-        "com.liferay.portlet.instanceable=true",
         "com.liferay.portlet.scopeable=true",
         "javax.portlet.init-param.template-path=/",
         "javax.portlet.init-param.view-template=/html/guestbookadminmvcportlet/view.jsp",
-        "javax.portlet.name=guestbook-admin",
-        "javax.portlet.display-name=Guestbook",
+        "javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK_ADMIN,
+        "javax.portlet.display-name=Guestbooks",
+        "javax.portlet.init-param.portlet-title-based-navigation=true",
         "javax.portlet.resource-bundle=content.Language",
         "javax.portlet.security-role-ref=administrator",
         "javax.portlet.supports.mime-type=text/html",
@@ -50,6 +53,13 @@ import org.osgi.service.component.annotations.Component;
     service = Portlet.class
 )
 public class GuestbookAdminMVCPortlet extends MVCPortlet {
+	
+	private GuestbookService _guestbookService;
+	
+	@Reference(unbind = "-")
+	protected void setGuestbookService(GuestbookService guestbookService) {
+		_guestbookService = guestbookService;
+	}
 	
 	public void addGuestbook(ActionRequest request, ActionResponse response)
 		    throws PortalException, SystemException {
@@ -60,8 +70,11 @@ public class GuestbookAdminMVCPortlet extends MVCPortlet {
 		    String name = ParamUtil.getString(request, "name");
 		
 		    try {
-		            GuestbookServiceUtil.addGuestbook(serviceContext.getUserId(),
-		                            name, serviceContext);
+		            /*GuestbookServiceUtil.addGuestbook(serviceContext.getUserId(),
+		                            name, serviceContext);*/
+		            
+		            _guestbookService.addGuestbook(serviceContext.getUserId(),
+                            name, serviceContext);
 		
 		            SessionMessages.add(request, "guestbookAdded");
 		    } catch (PortalException e) {
@@ -82,7 +95,10 @@ public class GuestbookAdminMVCPortlet extends MVCPortlet {
 		    long guestbookId = ParamUtil.getLong(request, "guestbookId");
 		
 		    try {
-		            GuestbookServiceUtil.updateGuestbook(serviceContext.getUserId(), 
+		            /*GuestbookServiceUtil.updateGuestbook(serviceContext.getUserId(), 
+		                    guestbookId, name, serviceContext);*/
+		            
+		            _guestbookService.updateGuestbook(serviceContext.getUserId(), 
 		                    guestbookId, name, serviceContext);
 		
 		            SessionMessages.add(request, "guestbookUpdated");
@@ -103,7 +119,8 @@ public class GuestbookAdminMVCPortlet extends MVCPortlet {
 		    long guestbookId = ParamUtil.getLong(request, "guestbookId");
 		
 		    try {
-		            GuestbookServiceUtil.deleteGuestbook(guestbookId, serviceContext);
+		            //GuestbookServiceUtil.deleteGuestbook(guestbookId, serviceContext);
+		            _guestbookService.deleteGuestbook(guestbookId, serviceContext);
 		
 		            SessionMessages.add(request, "guestbookDeleted");
 		    } catch (PortalException pe) {

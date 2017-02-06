@@ -16,18 +16,13 @@
 
 <%@ include file="../init.jsp" %>
 
-<aui:button-row cssClass="guestbook-admin-buttons">
-        <c:if test='<%= GuestbookModelPermission.contains(permissionChecker,
-             scopeGroupId, "ADD_GUESTBOOK") %>'>
-                <portlet:renderURL var="addGuestbookURL">
-                        <portlet:param name="mvcPath"
-                                value="/html/guestbookadminmvcportlet/edit_guestbook.jsp" />
-                </portlet:renderURL>
+<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon" >
 
-                <aui:button onClick="<%= addGuestbookURL.toString() %>"
-                        value="Add Guestbook" />
-        </c:if>
-</aui:button-row>
+    <aui:nav cssClass="navbar-nav">
+		<aui:nav-item label="Guestbooks" selected="<%= true %>" />
+	</aui:nav>
+
+</aui:nav-bar>
 
 <liferay-ui:search-container total="<%= GuestbookLocalServiceUtil.getGuestbooksCount(scopeGroupId) %>" >
         <liferay-ui:search-container-results
@@ -46,5 +41,18 @@
 
         </liferay-ui:search-container-row>
 
-        <liferay-ui:search-iterator />
+        <liferay-ui:search-iterator markupView="lexicon" />
 </liferay-ui:search-container>
+
+<liferay-frontend:add-menu>
+    <c:if test='<%= GuestbookModelPermission.contains(permissionChecker,
+             scopeGroupId, "ADD_GUESTBOOK") %>'>
+                <portlet:renderURL var="addGuestbookURL">
+                        <portlet:param name="mvcPath"
+                                value="/html/guestbookadminmvcportlet/edit_guestbook.jsp" />
+                        <portlet:param name="redirect" value="${currentURL}" />
+                </portlet:renderURL>
+
+                <liferay-frontend:add-menu-item title="Add Guestbook" url="<%= addGuestbookURL.toString() %>" />
+    </c:if>
+</liferay-frontend:add-menu>
