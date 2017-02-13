@@ -16,8 +16,6 @@ package com.liferay.docs.guestbook.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import java.util.List;
-
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.service.EntryLocalServiceUtil;
 import com.liferay.docs.guestbook.service.base.EntryServiceBaseImpl;
@@ -25,8 +23,9 @@ import com.liferay.docs.guestbook.service.permission.EntryPermission;
 import com.liferay.docs.guestbook.service.permission.GuestbookModelPermission;
 import com.liferay.docs.guestbook.util.ActionKeys;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.ServiceContext;
+
+import java.util.List;
 
 /**
  * The implementation of the entry remote service.
@@ -44,60 +43,54 @@ import com.liferay.portal.kernel.service.ServiceContext;
  */
 @ProviderType
 public class EntryServiceImpl extends EntryServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.docs.guestbook.service.EntryServiceUtil} to access the entry remote service.
-	 */
-	
-	public Entry addEntry(long userId, long guestbookId, String name,
-            String email, String message, ServiceContext serviceContext)
-            throws PortalException, SystemException {
 
-        GuestbookModelPermission.check(getPermissionChecker(),
-                    serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
+	public Entry addEntry(
+			long userId, long guestbookId, String name, String email,
+			String message, ServiceContext serviceContext)
+		throws PortalException {
 
-        return EntryLocalServiceUtil.addEntry(userId, guestbookId, name, email,
-                    message, serviceContext);
-    }
+		GuestbookModelPermission.check(
+			getPermissionChecker(), serviceContext.getScopeGroupId(),
+			ActionKeys.ADD_ENTRY);
+
+		return EntryLocalServiceUtil.addEntry(
+			userId, guestbookId, name, email, message, serviceContext);
+	}
 
 	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
-            throws PortalException, SystemException {
+		throws PortalException {
 
-        EntryPermission.check(getPermissionChecker(),
-                    entryId, ActionKeys.DELETE);
+		EntryPermission.check(
+			getPermissionChecker(), entryId, ActionKeys.DELETE);
 
-        return EntryLocalServiceUtil.deleteEntry(entryId, serviceContext);
-    }
+		return EntryLocalServiceUtil.deleteEntry(entryId, serviceContext);
+	}
 
-	public List<Entry> getEntries(long groupId, long guestbookId)
-            throws SystemException {
+	public List<Entry> getEntries(long groupId, long guestbookId) {
+		return entryPersistence.filterFindByG_G(groupId, guestbookId);
+	}
 
-        return entryPersistence.filterFindByG_G(groupId, guestbookId);
-    }
+	public List<Entry> getEntries(
+		long groupId, long guestbookId, int start, int end) {
 
-    public List<Entry> getEntries(long groupId, long guestbookId, int start,
-            int end) throws SystemException {
+		return entryPersistence.filterFindByG_G(
+			groupId, guestbookId, start, end);
+	}
 
-        return entryPersistence.filterFindByG_G(groupId, guestbookId, start,
-                    end);
-    }
+	public int getEntriesCount(long groupId, long guestbookId) {
+		return entryPersistence.filterCountByG_G(groupId, guestbookId);
+	}
 
-    public int getEntriesCount(long groupId, long guestbookId)
-            throws SystemException {
+	public Entry updateEntry(
+			long userId, long guestbookId, long entryId, String name,
+			String email, String message, ServiceContext serviceContext)
+		throws PortalException {
 
-        return entryPersistence.filterCountByG_G(groupId, guestbookId);
-    }
+		EntryPermission.check(
+			getPermissionChecker(), entryId, ActionKeys.UPDATE);
 
-    public Entry updateEntry(long userId, long guestbookId, long entryId,
-            String name, String email, String message,
-            ServiceContext serviceContext) throws PortalException,
-            SystemException {
+		return EntryLocalServiceUtil.updateEntry(
+			userId, guestbookId, entryId, name, email, message, serviceContext);
+	}
 
-        EntryPermission.check(getPermissionChecker(),
-                    entryId, ActionKeys.UPDATE);
-
-        return EntryLocalServiceUtil.updateEntry(userId, guestbookId, entryId,
-                    name, email, message, serviceContext);
-    }
 }

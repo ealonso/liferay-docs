@@ -16,20 +16,19 @@ package com.liferay.docs.guestbook.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import java.util.Date;
-import java.util.List;
-
 import com.liferay.docs.guestbook.exception.EntryEmailException;
 import com.liferay.docs.guestbook.exception.EntryMessageException;
 import com.liferay.docs.guestbook.exception.EntryNameException;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.service.base.EntryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the entry local service.
@@ -47,123 +46,121 @@ import com.liferay.portal.kernel.util.Validator;
  */
 @ProviderType
 public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.docs.guestbook.service.EntryLocalServiceUtil} to access the entry local service.
-	 */
-	
-	public List<Entry> getEntries(long groupId, long guestbookId) throws SystemException {
 
-	    return entryPersistence.findByG_G(groupId, guestbookId);
+	public Entry addEntry(
+			long userId, long guestbookId, String name, String email,
+			String message, ServiceContext serviceContext)
+		throws PortalException {
+
+		long groupId = serviceContext.getScopeGroupId();
+
+		User user = userLocalService.getUserById(userId);
+
+		Date now = new Date();
+
+		validate(name, email, message);
+
+		long entryId = counterLocalService.increment();
+
+		Entry entry = entryPersistence.create(entryId);
+
+		entry.setUuid(serviceContext.getUuid());
+		entry.setUserId(userId);
+		entry.setGroupId(groupId);
+		entry.setCompanyId(user.getCompanyId());
+		entry.setUserName(user.getFullName());
+		entry.setCreateDate(serviceContext.getCreateDate(now));
+		entry.setModifiedDate(serviceContext.getModifiedDate(now));
+		entry.setExpandoBridgeAttributes(serviceContext);
+		entry.setGuestbookId(guestbookId);
+		entry.setName(name);
+		entry.setEmail(email);
+		entry.setMessage(message);
+
+		entryPersistence.update(entry);
+
+		resourceLocalService.addResources(
+			user.getCompanyId(), groupId, userId, Entry.class.getName(),
+			entryId, false, true, true);
+
+		return entry;
 	}
 
-	public List<Entry> getEntries(long groupId, long guestbookId, int start, int end)
-	     throws SystemException {
+	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
+		throws PortalException {
 
-	    return entryPersistence.findByG_G(groupId, guestbookId, start, end);
+		Entry entry = getEntry(entryId);
+
+		resourceLocalService.deleteResource(
+			serviceContext.getCompanyId(), Entry.class.getName(),
+			ResourceConstants.SCOPE_INDIVIDUAL, entryId);
+
+		entry = deleteEntry(entryId);
+
+		return entry;
 	}
-	
+
+	public List<Entry> getEntries(long groupId, long guestbookId) {
+		return entryPersistence.findByG_G(groupId, guestbookId);
+	}
+
+	public List<Entry> getEntries(
+		long groupId, long guestbookId, int start, int end) {
+
+		return entryPersistence.findByG_G(groupId, guestbookId, start, end);
+	}
+
 	public int getEntriesCount(long groupId, long guestbookId) {
 		return entryPersistence.countByG_G(groupId, guestbookId);
 	}
 
-	protected void validate (String name, String email, String entry) 
-	        throws PortalException {
-	    if (Validator.isNull(name)) {
-	        throw new EntryNameException();
-	    }
-
-	    if (!Validator.isEmailAddress(email)) {
-	        throw new EntryEmailException();
-	    }
-
-	    if (Validator.isNull(entry)) {
-	        throw new EntryMessageException();
-	    }
-	}
-
-	public Entry addEntry(long userId, long guestbookId, String name,
-	        String email, String message, ServiceContext serviceContext)
-	         throws PortalException, SystemException {
-	    long groupId = serviceContext.getScopeGroupId();
-
-	    User user = userPersistence.findByPrimaryKey(userId);
-
-	    Date now = new Date();
-
-	    validate(name, email, message);
-
-	    long entryId = counterLocalService.increment();
-
-	    Entry entry = entryPersistence.create(entryId);
-
-	    entry.setUuid(serviceContext.getUuid());
-	    entry.setUserId(userId);
-	    entry.setGroupId(groupId);
-	    entry.setCompanyId(user.getCompanyId());
-	    entry.setUserName(user.getFullName());
-	    entry.setCreateDate(serviceContext.getCreateDate(now));
-	    entry.setModifiedDate(serviceContext.getModifiedDate(now));
-	    entry.setExpandoBridgeAttributes(serviceContext);
-	    entry.setGuestbookId(guestbookId);
-	    entry.setName(name);
-	    entry.setEmail(email);
-	    entry.setMessage(message);
-
-	    entryPersistence.update(entry);
-	    
-	    resourceLocalService.addResources(user.getCompanyId(), groupId, userId,
-	    	       Entry.class.getName(), entryId, false, true, true);
-
-	    return entry;
-
-	}
-	
-	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
-		    throws PortalException, SystemException {
-
-		    Entry entry = getEntry(entryId);
-
-		    resourceLocalService.deleteResource(
-		        serviceContext.getCompanyId(), Entry.class.getName(),
-		        ResourceConstants.SCOPE_INDIVIDUAL, entryId);
-
-		        entry = deleteEntry(entryId);
-
-		        return entry;
-		}
-	
 	public Entry updateEntry(
-	        long userId, long guestbookId, long entryId, String name,
-	        String email, String message, ServiceContext serviceContext)
-	    throws PortalException, SystemException {
+			long userId, long guestbookId, long entryId, String name,
+			String email, String message, ServiceContext serviceContext)
+		throws PortalException {
 
-	    long groupId = serviceContext.getScopeGroupId();
+		long groupId = serviceContext.getScopeGroupId();
 
-	    User user = userPersistence.findByPrimaryKey(userId);
+		User user = userLocalService.getUserById(userId);
 
-	    Date now = new Date();
+		Date now = new Date();
 
-	    validate(name, email, message);
+		validate(name, email, message);
 
-	    Entry entry = getEntry(entryId);
+		Entry entry = getEntry(entryId);
 
-	    entry.setUserId(userId);
-	    entry.setUserName(user.getFullName());
-	    entry.setName(name);
-	    entry.setEmail(email);
-	    entry.setMessage(message);
-	    entry.setModifiedDate(serviceContext.getModifiedDate(now));
-	    entry.setExpandoBridgeAttributes(serviceContext);
+		entry.setUserId(userId);
+		entry.setUserName(user.getFullName());
+		entry.setName(name);
+		entry.setEmail(email);
+		entry.setMessage(message);
+		entry.setModifiedDate(serviceContext.getModifiedDate(now));
+		entry.setExpandoBridgeAttributes(serviceContext);
 
-	    entryPersistence.update(entry);
+		entryPersistence.update(entry);
 
-	    resourceLocalService.updateResources(
-	        user.getCompanyId(), groupId, Entry.class.getName(), entryId,
-	        serviceContext.getGroupPermissions(),
-	        serviceContext.getGuestPermissions());
+		resourceLocalService.updateResources(
+			user.getCompanyId(), groupId, Entry.class.getName(), entryId,
+			serviceContext.getGroupPermissions(),
+			serviceContext.getGuestPermissions());
 
-	    return entry;
+		return entry;
 	}
+
+	protected void validate(String name, String email, String entry)
+		throws PortalException {
+
+		if (Validator.isNull(name)) {
+			throw new EntryNameException();
+		}
+
+		if (!Validator.isEmailAddress(email)) {
+			throw new EntryEmailException();
+		}
+
+		if (Validator.isNull(entry)) {
+			throw new EntryMessageException();
+		}
+	}
+
 }

@@ -1,89 +1,98 @@
-<%@include file="../init.jsp"%>
+<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file="../init.jsp" %>
 
 <%
-	long guestbookId = Long.valueOf((Long) renderRequest
-			.getAttribute("guestbookId"));
+long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 %>
 
 <aui:nav cssClass="nav-tabs">
 
 	<%
-		List<Guestbook> guestbooks = GuestbookLocalServiceUtil
-					.getGuestbooks(scopeGroupId);
-			for (int i = 0; i < guestbooks.size(); i++) {
-				Guestbook curGuestbook = (Guestbook) guestbooks.get(i);
+	List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
 
-				String cssClass = StringPool.BLANK;
+	for (int i = 0; i < guestbooks.size(); i++) {
+		Guestbook curGuestbook = (Guestbook)guestbooks.get(i);
 
-				if (curGuestbook.getGuestbookId() == guestbookId) {
-					cssClass = "active";
-				}
-				
-				if (GuestbookPermission.contains(
-					    permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
-				
+		String cssClass = StringPool.BLANK;
+
+		if (curGuestbook.getGuestbookId() == guestbookId) {
+			cssClass = "active";
+		}
+
+		if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
 	%>
 
-	<portlet:renderURL var="viewPageURL">
-		<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
-		<portlet:param name="guestbookId"
-			value="<%=String.valueOf(curGuestbook.getGuestbookId())%>" />
-	</portlet:renderURL>
+			<portlet:renderURL var="viewPageURL">
+				<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
+				<portlet:param name="guestbookId" value="<%= String.valueOf(curGuestbook.getGuestbookId()) %>" />
+			</portlet:renderURL>
 
-	<aui:nav-item cssClass="<%=cssClass%>" href="<%=viewPageURL%>"
-		label="<%=HtmlUtil.escape(curGuestbook.getName())%>" />
+			<aui:nav-item cssClass="<%= cssClass %>" href="<%= viewPageURL %>" label="<%= HtmlUtil.escape(curGuestbook.getName()) %>" />
 
 	<%
-			}
 		}
+	}
 	%>
 
 </aui:nav>
 
 <aui:button-row cssClass="guestbook-buttons">
-
-    <c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'>
-
+	<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'>
 		<portlet:renderURL var="addGuestbookURL">
-			<portlet:param name="mvcPath"
-				value="/html/guestbookmvcportlet/edit_guestbook.jsp" />
+			<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/edit_guestbook.jsp" />
 		</portlet:renderURL>
-		
-		<aui:button onClick="<%=addGuestbookURL.toString()%>" 
-			value="Add Guestbook" />
-	
-	</c:if>
-	
-	<c:if test='<%= GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'>
 
+		<aui:button onClick="<%= addGuestbookURL.toString() %>" value="Add Guestbook" />
+	</c:if>
+
+	<c:if test='<%= GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'>
 		<portlet:renderURL var="addEntryURL">
 			<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/edit_entry.jsp" />
-			<portlet:param name="guestbookId"
-				value="<%=String.valueOf(guestbookId)%>" />
+			<portlet:param name="guestbookId" value="<%= String.valueOf(guestbookId) %>" />
 		</portlet:renderURL>
-		
-		<aui:button onClick="<%=addEntryURL.toString()%>" value="Add Entry"></aui:button>
-	
-	</c:if>
 
+		<aui:button onClick="<%= addEntryURL.toString() %>" value="Add Entry" />
+	</c:if>
 </aui:button-row>
 
-<liferay-ui:search-container total="<%=EntryLocalServiceUtil.getEntriesCount()%>"
+<liferay-ui:search-container
+	total="<%= EntryLocalServiceUtil.getEntriesCount() %>"
 >
 	<liferay-ui:search-container-results
-		results="<%=EntryLocalServiceUtil.getEntries(scopeGroupId.longValue(),
-						guestbookId, searchContainer.getStart(),
-						searchContainer.getEnd())%>" />
+		results="<%= EntryLocalServiceUtil.getEntries(scopeGroupId.longValue(), guestbookId, searchContainer.getStart(), searchContainer.getEnd()) %>"
+	/>
 
 	<liferay-ui:search-container-row
-		className="com.liferay.docs.guestbook.model.Entry" modelVar="entry">
+		className="com.liferay.docs.guestbook.model.Entry"
+		modelVar="entry"
+	>
+		<liferay-ui:search-container-column-text
+			property="message"
+		/>
 
-		<liferay-ui:search-container-column-text property="message" />
+		<liferay-ui:search-container-column-text
+			property="name"
+		/>
 
-		<liferay-ui:search-container-column-text property="name" />
-		
-		<liferay-ui:search-container-column-jsp path="/html/guestbookmvcportlet/guestbook_actions.jsp" align="right" />
-
+		<liferay-ui:search-container-column-jsp
+			align="right"
+			path="/html/guestbookmvcportlet/guestbook_actions.jsp"
+		/>
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />

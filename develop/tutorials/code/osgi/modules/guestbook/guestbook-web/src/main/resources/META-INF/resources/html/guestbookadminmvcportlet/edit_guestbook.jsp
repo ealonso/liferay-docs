@@ -1,41 +1,58 @@
-<%@include file = "../init.jsp" %>
+<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file="../init.jsp" %>
 
 <%
-        Guestbook guestbook = null;
+String redirect = ParamUtil.getString(request, "redirect");
 
-        String redirect = ParamUtil.getString(request, "redirect");
+long guestbookId = ParamUtil.getLong(request, "guestbookId");
 
-        long guestbookId = ParamUtil.getLong(request, "guestbookId");
+Guestbook guestbook = null;
 
-        if (guestbookId > 0) {
-                guestbook = GuestbookLocalServiceUtil.getGuestbook(guestbookId);
-        }
-        
-        String headerTitle = (guestbook == null) ? "Add Guestbook" : guestbook.getName();
+if (guestbookId > 0) {
+	guestbook = GuestbookLocalServiceUtil.getGuestbook(guestbookId);
+}
 
-        portletDisplay.setShowBackIcon(true);
-        portletDisplay.setURLBack(redirect);
+String headerTitle = (guestbook == null) ? "Add Guestbook" : guestbook.getName();
 
-        renderResponse.setTitle(headerTitle);
+portletDisplay.setShowBackIcon(true);
+portletDisplay.setURLBack(redirect);
+
+renderResponse.setTitle(headerTitle);
 %>
 
 <portlet:renderURL var="viewURL">
-        <portlet:param name="mvcPath" value="/html/guestbookadminmvcportlet/view.jsp"></portlet:param>
+	<portlet:param name="mvcPath" value="/html/guestbookadminmvcportlet/view.jsp" />
 </portlet:renderURL>
 
-<portlet:actionURL name='<%= guestbook == null ? "addGuestbook" : "updateGuestbook" %>' var="editGuestbookURL" />
+<portlet:actionURL name='<%= (guestbook == null) ? "addGuestbook" : "updateGuestbook" %>' var="editGuestbookURL" />
 
-<aui:form action="<%= editGuestbookURL %>" name="<portlet:namespace />fm">
-		<aui:model-context bean="<%= guestbook %>" model="<%= Guestbook.class %>" />
-		
-        <aui:fieldset>
-                        <aui:input type="hidden" name="guestbookId"
-                                value='<%= guestbook == null ? "" : guestbook.getGuestbookId() %>' />
-                        <aui:input name="name" />
-        </aui:fieldset>
+<aui:form action="<%= editGuestbookURL %>" name="fm">
+	<aui:model-context bean="<%= guestbook %>" model="<%= Guestbook.class %>" />
 
-        <aui:button-row>
-                        <aui:button type="submit"></aui:button>
-                        <aui:button type="cancel" onClick="<%= viewURL %>"></aui:button>
-        </aui:button-row>
+	<aui:input name="guestbookId" type="hidden" value="<%= guestbook == null ? StringPool.BLANK : guestbook.getGuestbookId() %>" />
+
+	<aui:fieldset>
+		<aui:input name="name" />
+	</aui:fieldset>
+
+	<aui:button-row>
+		<aui:button type="submit" />
+
+		<aui:button onClick="<%= viewURL %>" type="cancel" />
+	</aui:button-row>
 </aui:form>

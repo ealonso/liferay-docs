@@ -16,17 +16,16 @@ package com.liferay.docs.guestbook.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import java.util.List;
-
 import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil;
 import com.liferay.docs.guestbook.service.base.GuestbookServiceBaseImpl;
 import com.liferay.docs.guestbook.service.permission.GuestbookModelPermission;
 import com.liferay.docs.guestbook.service.permission.GuestbookPermission;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.docs.guestbook.util.ActionKeys;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
+
+import java.util.List;
 
 /**
  * The implementation of the guestbook remote service.
@@ -44,56 +43,52 @@ import com.liferay.portal.kernel.service.ServiceContext;
  */
 @ProviderType
 public class GuestbookServiceImpl extends GuestbookServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.docs.guestbook.service.GuestbookServiceUtil} to access the guestbook remote service.
-	 */
-	
-	public Guestbook addGuestbook(long userId, String name,
-            ServiceContext serviceContext) throws SystemException,
-            PortalException {
 
-        GuestbookModelPermission.check(getPermissionChecker(),
-                    serviceContext.getScopeGroupId(), ActionKeys.ADD_GUESTBOOK);
+	public Guestbook addGuestbook(
+			long userId, String name, ServiceContext serviceContext)
+		throws PortalException {
 
-        return GuestbookLocalServiceUtil.addGuestbook(userId, name,
-                    serviceContext);
-    }
+		GuestbookModelPermission.check(
+			getPermissionChecker(), serviceContext.getScopeGroupId(),
+			ActionKeys.ADD_GUESTBOOK);
 
-	public Guestbook deleteGuestbook(long guestbookId,
-            ServiceContext serviceContext) throws PortalException,
-            SystemException {
+		return GuestbookLocalServiceUtil.addGuestbook(
+			userId, name, serviceContext);
+	}
 
-        GuestbookPermission.check(getPermissionChecker(), guestbookId,
-                    ActionKeys.DELETE);
+	public Guestbook deleteGuestbook(
+			long guestbookId, ServiceContext serviceContext)
+		throws PortalException {
 
-        return GuestbookLocalServiceUtil.deleteGuestbook(guestbookId,
-                    serviceContext);
-    }
+		GuestbookPermission.check(
+			getPermissionChecker(), guestbookId, ActionKeys.DELETE);
 
-	public List<Guestbook> getGuestbooks(long groupId) throws SystemException {
-        return guestbookPersistence.filterFindByGroupId(groupId);
-    }
+		return GuestbookLocalServiceUtil.deleteGuestbook(
+			guestbookId, serviceContext);
+	}
 
-    public List<Guestbook> getGuestbooks(long groupId, int start, int end)
-                throws SystemException {
+	public List<Guestbook> getGuestbooks(long groupId) {
+		return guestbookPersistence.filterFindByGroupId(groupId);
+	}
 
-        return guestbookPersistence.filterFindByGroupId(groupId, start, end);
-    }
+	public List<Guestbook> getGuestbooks(long groupId, int start, int end) {
+		return guestbookPersistence.filterFindByGroupId(groupId, start, end);
+	}
 
-    public int getGuestbooksCount(long groupId) throws SystemException {
-        return guestbookPersistence.filterCountByGroupId(groupId);
-    }
+	public int getGuestbooksCount(long groupId) {
+		return guestbookPersistence.filterCountByGroupId(groupId);
+	}
 
-    public Guestbook updateGuestbook(long userId, long guestbookId,
-            String name, ServiceContext serviceContext) throws PortalException,
-            SystemException {
+	public Guestbook updateGuestbook(
+			long userId, long guestbookId, String name,
+			ServiceContext serviceContext)
+		throws PortalException {
 
-        GuestbookPermission.check(getPermissionChecker(), guestbookId,
-                    ActionKeys.UPDATE);
+		GuestbookPermission.check(
+			getPermissionChecker(), guestbookId, ActionKeys.UPDATE);
 
-        return GuestbookLocalServiceUtil.updateGuestbook(userId, guestbookId,
-                    name, serviceContext);
-    }
+		return GuestbookLocalServiceUtil.updateGuestbook(
+			userId, guestbookId, name, serviceContext);
+	}
+
 }
