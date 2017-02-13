@@ -22,7 +22,6 @@ import javax.portlet.Portlet;
 import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.service.GuestbookService;
-//import com.liferay.docs.guestbook.service.GuestbookServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -70,9 +69,6 @@ public class GuestbookAdminMVCPortlet extends MVCPortlet {
 		    String name = ParamUtil.getString(request, "name");
 		
 		    try {
-		            /*GuestbookServiceUtil.addGuestbook(serviceContext.getUserId(),
-		                            name, serviceContext);*/
-		            
 		            _guestbookService.addGuestbook(serviceContext.getUserId(),
                             name, serviceContext);
 		
@@ -95,10 +91,7 @@ public class GuestbookAdminMVCPortlet extends MVCPortlet {
 		    long guestbookId = ParamUtil.getLong(request, "guestbookId");
 		
 		    try {
-		            /*GuestbookServiceUtil.updateGuestbook(serviceContext.getUserId(), 
-		                    guestbookId, name, serviceContext);*/
-		            
-		            _guestbookService.updateGuestbook(serviceContext.getUserId(), 
+		            _guestbookService.updateGuestbook(serviceContext.getUserId(),
 		                    guestbookId, name, serviceContext);
 		
 		            SessionMessages.add(request, "guestbookUpdated");
@@ -119,7 +112,6 @@ public class GuestbookAdminMVCPortlet extends MVCPortlet {
 		    long guestbookId = ParamUtil.getLong(request, "guestbookId");
 		
 		    try {
-		            //GuestbookServiceUtil.deleteGuestbook(guestbookId, serviceContext);
 		            _guestbookService.deleteGuestbook(guestbookId, serviceContext);
 		
 		            SessionMessages.add(request, "guestbookDeleted");
