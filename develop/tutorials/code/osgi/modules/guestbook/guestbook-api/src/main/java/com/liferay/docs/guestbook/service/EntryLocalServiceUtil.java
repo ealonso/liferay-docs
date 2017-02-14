@@ -295,8 +295,9 @@ public class EntryLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		long groupId, long guestbookId, int start, int end) {
-		return getService().getEntries(groupId, guestbookId, start, end);
+		long groupId, long guestbookId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.docs.guestbook.model.Entry> obc) {
+		return getService().getEntries(groupId, guestbookId, start, end, obc);
 	}
 
 	/**

@@ -257,7 +257,7 @@ public interface EntryLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Entry> getEntries(long groupId, long guestbookId, int start,
-		int end);
+		int end, OrderByComparator<Entry> obc);
 
 	/**
 	* Returns all the entries matching the UUID and company.

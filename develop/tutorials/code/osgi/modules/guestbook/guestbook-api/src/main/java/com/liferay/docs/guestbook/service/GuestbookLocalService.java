@@ -256,7 +256,8 @@ public interface GuestbookLocalService extends BaseLocalService,
 	public List<Guestbook> getGuestbooks(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Guestbook> getGuestbooks(long groupId, int start, int end);
+	public List<Guestbook> getGuestbooks(long groupId, int start, int end,
+		OrderByComparator<Guestbook> obc);
 
 	/**
 	* Returns all the guestbooks matching the UUID and company.

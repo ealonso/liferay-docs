@@ -311,8 +311,9 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Guestbook> getGuestbooks(
-		long groupId, int start, int end) {
-		return _guestbookLocalService.getGuestbooks(groupId, start, end);
+		long groupId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.docs.guestbook.model.Guestbook> obc) {
+		return _guestbookLocalService.getGuestbooks(groupId, start, end, obc);
 	}
 
 	/**

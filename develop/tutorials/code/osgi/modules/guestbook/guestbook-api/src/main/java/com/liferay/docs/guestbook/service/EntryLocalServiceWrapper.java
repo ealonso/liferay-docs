@@ -306,8 +306,10 @@ public class EntryLocalServiceWrapper implements EntryLocalService,
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		long groupId, long guestbookId, int start, int end) {
-		return _entryLocalService.getEntries(groupId, guestbookId, start, end);
+		long groupId, long guestbookId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.docs.guestbook.model.Entry> obc) {
+		return _entryLocalService.getEntries(groupId, guestbookId, start, end,
+			obc);
 	}
 
 	/**
