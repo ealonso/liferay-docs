@@ -70,29 +70,31 @@ if (orderByCol.equals("name")) {
 	</liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
 
-<liferay-ui:search-container
-	total="<%= GuestbookLocalServiceUtil.getGuestbooksCount(scopeGroupId) %>"
->
-	<liferay-ui:search-container-results
-		results="<%= GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd(), orderByComparator) %>"
-	/>
-
-	<liferay-ui:search-container-row
-		className="com.liferay.docs.guestbook.model.Guestbook"
-		modelVar="guestbook"
+<div class="container-fluid-1280">
+	<liferay-ui:search-container
+		total="<%= GuestbookLocalServiceUtil.getGuestbooksCount(scopeGroupId) %>"
 	>
-		<liferay-ui:search-container-column-text
-			property="name"
+		<liferay-ui:search-container-results
+			results="<%= GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd(), orderByComparator) %>"
 		/>
 
-		<liferay-ui:search-container-column-jsp
-			align="right"
-			path="/html/guestbookadminmvcportlet/guestbook_actions.jsp"
-		/>
-	</liferay-ui:search-container-row>
+		<liferay-ui:search-container-row
+			className="com.liferay.docs.guestbook.model.Guestbook"
+			modelVar="guestbook"
+		>
+			<liferay-ui:search-container-column-text
+				property="name"
+			/>
 
-	<liferay-ui:search-iterator displayStyle="<%= displayStyle %>" markupView="lexicon" />
-</liferay-ui:search-container>
+			<liferay-ui:search-container-column-jsp
+				align="right"
+				path="/html/guestbookadminmvcportlet/guestbook_actions.jsp"
+			/>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator displayStyle="<%= displayStyle %>" markupView="lexicon" />
+	</liferay-ui:search-container>
+</div>
 
 <liferay-frontend:add-menu>
 	<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'>
