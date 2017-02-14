@@ -71,7 +71,7 @@ if (orderByCol.equals("name")) {
 <liferay-frontend:management-bar>
 	<liferay-frontend:management-bar-buttons>
 		<liferay-frontend:management-bar-display-buttons
-			displayViews='<%= new String[] {"descriptive", "list"} %>'
+			displayViews='<%= new String[] {"icon", "descriptive", "list"} %>'
 			portletURL="<%= viewPageURL %>"
 			selectedDisplayStyle="<%= displayStyle %>"
 		/>
@@ -106,6 +106,23 @@ if (orderByCol.equals("name")) {
 			modelVar="entry"
 		>
 			<c:choose>
+				<c:when test='<%= Objects.equals(displayStyle, "icon") %>'>
+
+					<%
+					row.setCssClass("entry-card lfr-asset-item");
+					%>
+
+					<liferay-ui:search-container-column-text>
+						<liferay-frontend:icon-vertical-card
+							actionJsp="/html/guestbookmvcportlet/guestbook_actions.jsp"
+							actionJspServletContext="<%= application %>"
+							icon="quote-left"
+							resultRow="<%= row %>"
+							subtitle="<%= HtmlUtil.escape(entry.getMessage()) %>"
+							title="<%= HtmlUtil.escape(entry.getName()) %>"
+						/>
+					</liferay-ui:search-container-column-text>
+				</c:when>
 				<c:when test='<%= Objects.equals(displayStyle, "descriptive") %>'>
 					<liferay-ui:search-container-column-icon
 						icon="quote-left"
