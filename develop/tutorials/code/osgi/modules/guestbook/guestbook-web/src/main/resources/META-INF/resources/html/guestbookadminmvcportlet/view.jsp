@@ -83,11 +83,11 @@ if (orderByCol.equals("name")) {
 			modelVar="guestbook"
 		>
 			<liferay-ui:search-container-column-text
+				cssClass="table-cell-content"
 				property="name"
 			/>
 
 			<liferay-ui:search-container-column-jsp
-				align="right"
 				path="/html/guestbookadminmvcportlet/guestbook_actions.jsp"
 			/>
 		</liferay-ui:search-container-row>
