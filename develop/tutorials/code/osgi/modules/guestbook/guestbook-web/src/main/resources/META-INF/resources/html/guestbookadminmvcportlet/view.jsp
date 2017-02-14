@@ -16,11 +16,29 @@
 
 <%@ include file="../init.jsp" %>
 
+<%
+String displayStyle = ParamUtil.getString(request, "displayStyle", "list");
+%>
+
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item label="Guestbooks" selected="<%= true %>" />
 	</aui:nav>
 </aui:nav-bar>
+
+<liferay-portlet:renderURL varImpl="viewPageURL">
+	<portlet:param name="mvcPath" value="/html/guestbookadminmvcportlet/view.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-frontend:management-bar>
+	<liferay-frontend:management-bar-buttons>
+		<liferay-frontend:management-bar-display-buttons
+			displayViews='<%= new String[] {"list"} %>'
+			portletURL="<%= viewPageURL %>"
+			selectedDisplayStyle="<%= displayStyle %>"
+		/>
+	</liferay-frontend:management-bar-buttons>
+</liferay-frontend:management-bar>
 
 <liferay-ui:search-container
 	total="<%= GuestbookLocalServiceUtil.getGuestbooksCount(scopeGroupId) %>"
@@ -43,7 +61,7 @@
 		/>
 	</liferay-ui:search-container-row>
 
-	<liferay-ui:search-iterator markupView="lexicon" />
+	<liferay-ui:search-iterator displayStyle="<%= displayStyle %>" markupView="lexicon" />
 </liferay-ui:search-container>
 
 <liferay-frontend:add-menu>
