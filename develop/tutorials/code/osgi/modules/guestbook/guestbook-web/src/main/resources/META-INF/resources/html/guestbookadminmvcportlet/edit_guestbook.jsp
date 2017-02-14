@@ -46,9 +46,11 @@ renderResponse.setTitle(headerTitle);
 
 	<aui:input name="guestbookId" type="hidden" value="<%= guestbook == null ? StringPool.BLANK : guestbook.getGuestbookId() %>" />
 
-	<aui:fieldset>
-		<aui:input name="name" />
-	</aui:fieldset>
+	<aui:fieldset-group markupView="lexicon">
+		<aui:fieldset>
+			<aui:input name="name" />
+		</aui:fieldset>
+	</aui:fieldset-group>
 
 	<aui:button-row>
 		<aui:button cssClass="btn-lg" type="submit" />
