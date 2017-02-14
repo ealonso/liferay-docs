@@ -26,12 +26,6 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 	List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
 
 	for (Guestbook curGuestbook : guestbooks) {
-		String cssClass = StringPool.BLANK;
-
-		if (curGuestbook.getGuestbookId() == guestbookId) {
-			cssClass = "active";
-		}
-
 		if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
 	%>
 
@@ -40,7 +34,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 				<portlet:param name="guestbookId" value="<%= String.valueOf(curGuestbook.getGuestbookId()) %>" />
 			</portlet:renderURL>
 
-			<aui:nav-item cssClass="<%= cssClass %>" href="<%= viewPageURL %>" label="<%= HtmlUtil.escape(curGuestbook.getName()) %>" />
+			<aui:nav-item href="<%= viewPageURL %>" label="<%= HtmlUtil.escape(curGuestbook.getName()) %>" selected="<%= curGuestbook.getGuestbookId() == guestbookId %>" />
 
 	<%
 		}
