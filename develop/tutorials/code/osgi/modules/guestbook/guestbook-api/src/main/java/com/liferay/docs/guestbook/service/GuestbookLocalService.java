@@ -75,7 +75,7 @@ public interface GuestbookLocalService extends BaseLocalService,
 	public Guestbook addGuestbook(Guestbook guestbook);
 
 	public Guestbook addGuestbook(long userId, java.lang.String name,
-		ServiceContext serviceContext) throws PortalException, SystemException;
+		ServiceContext serviceContext) throws PortalException;
 
 	/**
 	* Creates a new guestbook with the primary key. Does not add the guestbook to the database.
@@ -106,7 +106,7 @@ public interface GuestbookLocalService extends BaseLocalService,
 		throws PortalException;
 
 	public Guestbook deleteGuestbook(long guestbookId,
-		ServiceContext serviceContext) throws PortalException, SystemException;
+		ServiceContext serviceContext) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Guestbook fetchGuestbook(long guestbookId);
@@ -155,7 +155,7 @@ public interface GuestbookLocalService extends BaseLocalService,
 
 	public Guestbook updateGuestbook(long userId, long guestbookId,
 		java.lang.String name, ServiceContext serviceContext)
-		throws PortalException, SystemException;
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -190,7 +190,7 @@ public interface GuestbookLocalService extends BaseLocalService,
 	public int getGuestbooksCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGuestbooksCount(long groupId) throws SystemException;
+	public int getGuestbooksCount(long groupId);
 
 	/**
 	* Returns the OSGi service identifier.
@@ -253,12 +253,10 @@ public interface GuestbookLocalService extends BaseLocalService,
 	public List<Guestbook> getGuestbooks(int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Guestbook> getGuestbooks(long groupId)
-		throws SystemException;
+	public List<Guestbook> getGuestbooks(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Guestbook> getGuestbooks(long groupId, int start, int end)
-		throws SystemException;
+	public List<Guestbook> getGuestbooks(long groupId, int start, int end);
 
 	/**
 	* Returns all the guestbooks matching the UUID and company.

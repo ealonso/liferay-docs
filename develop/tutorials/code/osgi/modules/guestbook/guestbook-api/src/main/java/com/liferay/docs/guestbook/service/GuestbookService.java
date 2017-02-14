@@ -56,17 +56,17 @@ public interface GuestbookService extends BaseService {
 	 * Never modify or reference this interface directly. Always use {@link GuestbookServiceUtil} to access the guestbook remote service. Add custom service methods to {@link com.liferay.docs.guestbook.service.impl.GuestbookServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	public Guestbook addGuestbook(long userId, java.lang.String name,
-		ServiceContext serviceContext) throws PortalException, SystemException;
+		ServiceContext serviceContext) throws PortalException;
 
 	public Guestbook deleteGuestbook(long guestbookId,
-		ServiceContext serviceContext) throws PortalException, SystemException;
+		ServiceContext serviceContext) throws PortalException;
 
 	public Guestbook updateGuestbook(long userId, long guestbookId,
 		java.lang.String name, ServiceContext serviceContext)
-		throws PortalException, SystemException;
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getGuestbooksCount(long groupId) throws SystemException;
+	public int getGuestbooksCount(long groupId);
 
 	/**
 	* Returns the OSGi service identifier.
@@ -76,10 +76,8 @@ public interface GuestbookService extends BaseService {
 	public java.lang.String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Guestbook> getGuestbooks(long groupId)
-		throws SystemException;
+	public List<Guestbook> getGuestbooks(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Guestbook> getGuestbooks(long groupId, int start, int end)
-		throws SystemException;
+	public List<Guestbook> getGuestbooks(long groupId, int start, int end);
 }

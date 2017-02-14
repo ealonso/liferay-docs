@@ -49,8 +49,7 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 	public com.liferay.docs.guestbook.model.Guestbook addGuestbook(
 		long userId, java.lang.String name,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _guestbookLocalService.addGuestbook(userId, name, serviceContext);
 	}
 
@@ -96,8 +95,7 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 	public com.liferay.docs.guestbook.model.Guestbook deleteGuestbook(
 		long guestbookId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _guestbookLocalService.deleteGuestbook(guestbookId,
 			serviceContext);
 	}
@@ -167,8 +165,7 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 	public com.liferay.docs.guestbook.model.Guestbook updateGuestbook(
 		long userId, long guestbookId, java.lang.String name,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _guestbookLocalService.updateGuestbook(userId, guestbookId,
 			name, serviceContext);
 	}
@@ -222,8 +219,7 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 	}
 
 	@Override
-	public int getGuestbooksCount(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getGuestbooksCount(long groupId) {
 		return _guestbookLocalService.getGuestbooksCount(groupId);
 	}
 
@@ -309,15 +305,13 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Guestbook> getGuestbooks(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId) {
 		return _guestbookLocalService.getGuestbooks(groupId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Guestbook> getGuestbooks(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, int start, int end) {
 		return _guestbookLocalService.getGuestbooks(groupId, start, end);
 	}
 

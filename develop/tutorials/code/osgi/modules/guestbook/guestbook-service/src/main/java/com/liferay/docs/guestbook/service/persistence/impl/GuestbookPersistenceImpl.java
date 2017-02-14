@@ -2402,7 +2402,7 @@ public class GuestbookPersistenceImpl extends BasePersistenceImpl<Guestbook>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((GuestbookModelImpl)guestbook);
+		clearUniqueFindersCache((GuestbookModelImpl)guestbook, true);
 	}
 
 	@Override
@@ -2414,51 +2414,37 @@ public class GuestbookPersistenceImpl extends BasePersistenceImpl<Guestbook>
 			entityCache.removeResult(GuestbookModelImpl.ENTITY_CACHE_ENABLED,
 				GuestbookImpl.class, guestbook.getPrimaryKey());
 
-			clearUniqueFindersCache((GuestbookModelImpl)guestbook);
+			clearUniqueFindersCache((GuestbookModelImpl)guestbook, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
-		GuestbookModelImpl guestbookModelImpl, boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					guestbookModelImpl.getUuid(),
-					guestbookModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				guestbookModelImpl);
-		}
-		else {
-			if ((guestbookModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						guestbookModelImpl.getUuid(),
-						guestbookModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					guestbookModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(
 		GuestbookModelImpl guestbookModelImpl) {
 		Object[] args = new Object[] {
 				guestbookModelImpl.getUuid(), guestbookModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			guestbookModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		GuestbookModelImpl guestbookModelImpl, boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					guestbookModelImpl.getUuid(),
+					guestbookModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((guestbookModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					guestbookModelImpl.getOriginalUuid(),
 					guestbookModelImpl.getOriginalGroupId()
 				};
@@ -2697,8 +2683,8 @@ public class GuestbookPersistenceImpl extends BasePersistenceImpl<Guestbook>
 		entityCache.putResult(GuestbookModelImpl.ENTITY_CACHE_ENABLED,
 			GuestbookImpl.class, guestbook.getPrimaryKey(), guestbook, false);
 
-		clearUniqueFindersCache(guestbookModelImpl);
-		cacheUniqueFindersCache(guestbookModelImpl, isNew);
+		clearUniqueFindersCache(guestbookModelImpl, false);
+		cacheUniqueFindersCache(guestbookModelImpl);
 
 		guestbook.resetOriginalValues();
 

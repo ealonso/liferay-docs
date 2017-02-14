@@ -60,8 +60,7 @@ public class EntryServiceHttp {
 		java.lang.String name, java.lang.String email,
 		java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EntryServiceUtil.class,
 					"addEntry", _addEntryParameterTypes0);
@@ -79,10 +78,6 @@ public class EntryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -98,8 +93,7 @@ public class EntryServiceHttp {
 	public static com.liferay.docs.guestbook.model.Entry deleteEntry(
 		HttpPrincipal httpPrincipal, long entryId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EntryServiceUtil.class,
 					"deleteEntry", _deleteEntryParameterTypes1);
@@ -117,10 +111,6 @@ public class EntryServiceHttp {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
 				}
 
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -134,8 +124,7 @@ public class EntryServiceHttp {
 	}
 
 	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		HttpPrincipal httpPrincipal, long groupId, long guestbookId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		HttpPrincipal httpPrincipal, long groupId, long guestbookId) {
 		try {
 			MethodKey methodKey = new MethodKey(EntryServiceUtil.class,
 					"getEntries", _getEntriesParameterTypes2);
@@ -149,10 +138,6 @@ public class EntryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -167,7 +152,7 @@ public class EntryServiceHttp {
 
 	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
 		HttpPrincipal httpPrincipal, long groupId, long guestbookId, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		int end) {
 		try {
 			MethodKey methodKey = new MethodKey(EntryServiceUtil.class,
 					"getEntries", _getEntriesParameterTypes3);
@@ -181,10 +166,6 @@ public class EntryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -198,8 +179,7 @@ public class EntryServiceHttp {
 	}
 
 	public static int getEntriesCount(HttpPrincipal httpPrincipal,
-		long groupId, long guestbookId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long guestbookId) {
 		try {
 			MethodKey methodKey = new MethodKey(EntryServiceUtil.class,
 					"getEntriesCount", _getEntriesCountParameterTypes4);
@@ -213,10 +193,6 @@ public class EntryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -234,8 +210,7 @@ public class EntryServiceHttp {
 		long entryId, java.lang.String name, java.lang.String email,
 		java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(EntryServiceUtil.class,
 					"updateEntry", _updateEntryParameterTypes5);
@@ -251,10 +226,6 @@ public class EntryServiceHttp {
 			catch (Exception e) {
 				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
 					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
-					throw (com.liferay.portal.kernel.exception.SystemException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(e);

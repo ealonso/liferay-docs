@@ -57,19 +57,18 @@ public interface EntryService extends BaseService {
 	 */
 	public Entry addEntry(long userId, long guestbookId, java.lang.String name,
 		java.lang.String email, java.lang.String message,
-		ServiceContext serviceContext) throws PortalException, SystemException;
+		ServiceContext serviceContext) throws PortalException;
 
 	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
-		throws PortalException, SystemException;
+		throws PortalException;
 
 	public Entry updateEntry(long userId, long guestbookId, long entryId,
 		java.lang.String name, java.lang.String email,
 		java.lang.String message, ServiceContext serviceContext)
-		throws PortalException, SystemException;
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getEntriesCount(long groupId, long guestbookId)
-		throws SystemException;
+	public int getEntriesCount(long groupId, long guestbookId);
 
 	/**
 	* Returns the OSGi service identifier.
@@ -79,10 +78,9 @@ public interface EntryService extends BaseService {
 	public java.lang.String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Entry> getEntries(long groupId, long guestbookId)
-		throws SystemException;
+	public List<Entry> getEntries(long groupId, long guestbookId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Entry> getEntries(long groupId, long guestbookId, int start,
-		int end) throws SystemException;
+		int end);
 }

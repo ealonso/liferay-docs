@@ -37,8 +37,7 @@ public class EntryServiceWrapper implements EntryService,
 		long guestbookId, java.lang.String name, java.lang.String email,
 		java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _entryService.addEntry(userId, guestbookId, name, email,
 			message, serviceContext);
 	}
@@ -46,8 +45,7 @@ public class EntryServiceWrapper implements EntryService,
 	@Override
 	public com.liferay.docs.guestbook.model.Entry deleteEntry(long entryId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _entryService.deleteEntry(entryId, serviceContext);
 	}
 
@@ -56,15 +54,13 @@ public class EntryServiceWrapper implements EntryService,
 		long guestbookId, long entryId, java.lang.String name,
 		java.lang.String email, java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _entryService.updateEntry(userId, guestbookId, entryId, name,
 			email, message, serviceContext);
 	}
 
 	@Override
-	public int getEntriesCount(long groupId, long guestbookId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public int getEntriesCount(long groupId, long guestbookId) {
 		return _entryService.getEntriesCount(groupId, guestbookId);
 	}
 
@@ -80,15 +76,13 @@ public class EntryServiceWrapper implements EntryService,
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		long groupId, long guestbookId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long guestbookId) {
 		return _entryService.getEntries(groupId, guestbookId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		long groupId, long guestbookId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long guestbookId, int start, int end) {
 		return _entryService.getEntries(groupId, guestbookId, start, end);
 	}
 

@@ -49,8 +49,7 @@ public class EntryLocalServiceWrapper implements EntryLocalService,
 		long guestbookId, java.lang.String name, java.lang.String email,
 		java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _entryLocalService.addEntry(userId, guestbookId, name, email,
 			message, serviceContext);
 	}
@@ -94,8 +93,7 @@ public class EntryLocalServiceWrapper implements EntryLocalService,
 	@Override
 	public com.liferay.docs.guestbook.model.Entry deleteEntry(long entryId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _entryLocalService.deleteEntry(entryId, serviceContext);
 	}
 
@@ -162,8 +160,7 @@ public class EntryLocalServiceWrapper implements EntryLocalService,
 		long guestbookId, long entryId, java.lang.String name,
 		java.lang.String email, java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _entryLocalService.updateEntry(userId, guestbookId, entryId,
 			name, email, message, serviceContext);
 	}
@@ -303,15 +300,13 @@ public class EntryLocalServiceWrapper implements EntryLocalService,
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		long groupId, long guestbookId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long guestbookId) {
 		return _entryLocalService.getEntries(groupId, guestbookId);
 	}
 
 	@Override
 	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
-		long groupId, long guestbookId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long groupId, long guestbookId, int start, int end) {
 		return _entryLocalService.getEntries(groupId, guestbookId, start, end);
 	}
 

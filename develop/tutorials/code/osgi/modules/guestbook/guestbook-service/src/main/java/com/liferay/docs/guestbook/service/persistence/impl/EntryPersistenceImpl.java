@@ -2446,7 +2446,7 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((EntryModelImpl)entry);
+		clearUniqueFindersCache((EntryModelImpl)entry, true);
 	}
 
 	@Override
@@ -2458,48 +2458,35 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 			entityCache.removeResult(EntryModelImpl.ENTITY_CACHE_ENABLED,
 				EntryImpl.class, entry.getPrimaryKey());
 
-			clearUniqueFindersCache((EntryModelImpl)entry);
+			clearUniqueFindersCache((EntryModelImpl)entry, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(EntryModelImpl entryModelImpl,
-		boolean isNew) {
-		if (isNew) {
-			Object[] args = new Object[] {
-					entryModelImpl.getUuid(), entryModelImpl.getGroupId()
-				};
-
-			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-				Long.valueOf(1));
-			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-				entryModelImpl);
-		}
-		else {
-			if ((entryModelImpl.getColumnBitmask() &
-					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						entryModelImpl.getUuid(), entryModelImpl.getGroupId()
-					};
-
-				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-					Long.valueOf(1));
-				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-					entryModelImpl);
-			}
-		}
-	}
-
-	protected void clearUniqueFindersCache(EntryModelImpl entryModelImpl) {
+	protected void cacheUniqueFindersCache(EntryModelImpl entryModelImpl) {
 		Object[] args = new Object[] {
 				entryModelImpl.getUuid(), entryModelImpl.getGroupId()
 			};
 
-		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			entryModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(EntryModelImpl entryModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					entryModelImpl.getUuid(), entryModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
 
 		if ((entryModelImpl.getColumnBitmask() &
 				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			args = new Object[] {
+			Object[] args = new Object[] {
 					entryModelImpl.getOriginalUuid(),
 					entryModelImpl.getOriginalGroupId()
 				};
@@ -2737,8 +2724,8 @@ public class EntryPersistenceImpl extends BasePersistenceImpl<Entry>
 		entityCache.putResult(EntryModelImpl.ENTITY_CACHE_ENABLED,
 			EntryImpl.class, entry.getPrimaryKey(), entry, false);
 
-		clearUniqueFindersCache(entryModelImpl);
-		cacheUniqueFindersCache(entryModelImpl, isNew);
+		clearUniqueFindersCache(entryModelImpl, false);
+		cacheUniqueFindersCache(entryModelImpl);
 
 		entry.resetOriginalValues();
 
