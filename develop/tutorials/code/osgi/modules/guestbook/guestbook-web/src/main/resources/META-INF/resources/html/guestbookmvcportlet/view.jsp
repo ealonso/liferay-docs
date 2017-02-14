@@ -20,28 +20,30 @@
 long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 %>
 
-<aui:nav cssClass="nav-tabs">
+<aui:nav-bar markupView="lexicon">
+	<aui:nav cssClass="navbar-nav">
 
-	<%
-	List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
+		<%
+		List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
 
-	for (Guestbook curGuestbook : guestbooks) {
-		if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
-	%>
+		for (Guestbook curGuestbook : guestbooks) {
+			if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
+		%>
 
-			<portlet:renderURL var="viewPageURL">
-				<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
-				<portlet:param name="guestbookId" value="<%= String.valueOf(curGuestbook.getGuestbookId()) %>" />
-			</portlet:renderURL>
+				<portlet:renderURL var="viewPageURL">
+					<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
+					<portlet:param name="guestbookId" value="<%= String.valueOf(curGuestbook.getGuestbookId()) %>" />
+				</portlet:renderURL>
 
-			<aui:nav-item href="<%= viewPageURL %>" label="<%= HtmlUtil.escape(curGuestbook.getName()) %>" selected="<%= curGuestbook.getGuestbookId() == guestbookId %>" />
+				<aui:nav-item href="<%= viewPageURL %>" label="<%= HtmlUtil.escape(curGuestbook.getName()) %>" selected="<%= curGuestbook.getGuestbookId() == guestbookId %>" />
 
-	<%
+		<%
+			}
 		}
-	}
-	%>
+		%>
 
-</aui:nav>
+	</aui:nav>
+</aui:nav-bar>
 
 <aui:button-row cssClass="guestbook-buttons">
 	<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'>
