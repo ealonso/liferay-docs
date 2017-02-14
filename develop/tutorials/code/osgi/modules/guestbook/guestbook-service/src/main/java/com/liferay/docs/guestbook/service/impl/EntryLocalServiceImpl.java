@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Date;
@@ -105,9 +106,11 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	}
 
 	public List<Entry> getEntries(
-		long groupId, long guestbookId, int start, int end) {
+		long groupId, long guestbookId, int start, int end,
+		OrderByComparator<Entry> obc) {
 
-		return entryPersistence.findByG_G(groupId, guestbookId, start, end);
+		return entryPersistence.findByG_G(
+			groupId, guestbookId, start, end, obc);
 	}
 
 	public int getEntriesCount(long groupId, long guestbookId) {

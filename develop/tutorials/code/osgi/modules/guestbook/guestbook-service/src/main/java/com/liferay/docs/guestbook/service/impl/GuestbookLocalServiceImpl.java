@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Date;
@@ -110,8 +111,10 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 		return guestbookPersistence.findByGroupId(groupId);
 	}
 
-	public List<Guestbook> getGuestbooks(long groupId, int start, int end) {
-		return guestbookPersistence.findByGroupId(groupId, start, end);
+	public List<Guestbook> getGuestbooks(
+		long groupId, int start, int end, OrderByComparator<Guestbook> obc) {
+
+		return guestbookPersistence.findByGroupId(groupId, start, end, obc);
 	}
 
 	public int getGuestbooksCount(long groupId) {
