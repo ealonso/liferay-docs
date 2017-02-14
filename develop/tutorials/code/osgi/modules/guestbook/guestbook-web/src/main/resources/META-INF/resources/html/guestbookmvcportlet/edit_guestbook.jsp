@@ -16,9 +16,16 @@
 
 <%@ include file="../init.jsp" %>
 
-<portlet:renderURL var="viewURL">
-	<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
-</portlet:renderURL>
+<%
+PortletURL backURL = renderResponse.createRenderURL();
+
+backURL.setParameter("mvcPath", "/html/guestbookmvcportlet/view.jsp");
+
+portletDisplay.setShowBackIcon(true);
+portletDisplay.setURLBack(backURL.toString());
+
+renderResponse.setTitle("Add GuestBook");
+%>
 
 <portlet:actionURL name="addGuestbook" var="addGuestbookURL" />
 
@@ -32,6 +39,6 @@
 	<aui:button-row>
 		<aui:button cssClass="btn-lg" type="submit" />
 
-		<aui:button cssClass="btn-lg" onClick="<%= viewURL %>" type="cancel" />
+		<aui:button cssClass="btn-lg" onClick="<%= backURL.toString() %>" type="cancel" />
 	</aui:button-row>
 </aui:form>

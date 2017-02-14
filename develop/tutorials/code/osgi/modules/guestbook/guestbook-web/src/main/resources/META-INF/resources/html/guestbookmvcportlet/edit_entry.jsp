@@ -17,20 +17,28 @@
 <%@ include file="../init.jsp" %>
 
 <%
+long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
+
 long entryId = ParamUtil.getLong(renderRequest, "entryId");
 
 Entry entry = null;
 
 if (entryId > 0) {
 	entry = EntryLocalServiceUtil.getEntry(entryId);
+
+	guestbookId = entry.getGuestbookId();
 }
 
-long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
-%>
+PortletURL backURL = renderResponse.createRenderURL();
 
-<portlet:renderURL var="viewURL">
-	<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
-</portlet:renderURL>
+backURL.setParameter("mvcPath", "/html/guestbookmvcportlet/view.jsp");
+backURL.setParameter("guestbookId", String.valueOf(guestbookId));
+
+portletDisplay.setShowBackIcon(true);
+portletDisplay.setURLBack(backURL.toString());
+
+renderResponse.setTitle((entry == null) ? "Add Entry" : entry.getName());
+%>
 
 <portlet:actionURL name="addEntry" var="addEntryURL" />
 
@@ -47,13 +55,13 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 
 			<aui:input name="entryId" type="hidden" />
 
-			<aui:input name="guestbookId" type="hidden" value="<%= entry == null ? guestbookId : entry.getGuestbookId() %>" />
+			<aui:input name="guestbookId" type="hidden" value="<%= guestbookId %>" />
 		</aui:fieldset>
 	</aui:fieldset-group>
 
 	<aui:button-row>
 		<aui:button cssClass="btn-lg" type="submit" />
 
-		<aui:button cssClass="btn-lg" onClick="<%= viewURL.toString() %>" type="cancel" />
+		<aui:button cssClass="btn-lg" onClick="<%= backURL.toString() %>" type="cancel" />
 	</aui:button-row>
 </aui:form>
