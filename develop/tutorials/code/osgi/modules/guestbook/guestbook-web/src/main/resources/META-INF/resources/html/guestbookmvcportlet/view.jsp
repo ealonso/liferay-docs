@@ -71,7 +71,7 @@ if (orderByCol.equals("name")) {
 <liferay-frontend:management-bar>
 	<liferay-frontend:management-bar-buttons>
 		<liferay-frontend:management-bar-display-buttons
-			displayViews='<%= new String[] {"list"} %>'
+			displayViews='<%= new String[] {"descriptive", "list"} %>'
 			portletURL="<%= viewPageURL %>"
 			selectedDisplayStyle="<%= displayStyle %>"
 		/>
@@ -105,19 +105,44 @@ if (orderByCol.equals("name")) {
 			className="com.liferay.docs.guestbook.model.Entry"
 			modelVar="entry"
 		>
-			<liferay-ui:search-container-column-text
-				cssClass="table-cell-content"
-				property="message"
-			/>
+			<c:choose>
+				<c:when test='<%= Objects.equals(displayStyle, "descriptive") %>'>
+					<liferay-ui:search-container-column-icon
+						icon="quote-left"
+					/>
 
-			<liferay-ui:search-container-column-text
-				cssClass="table-cell-content"
-				property="name"
-			/>
+					<liferay-ui:search-container-column-text
+						colspan="<%= 2 %>"
+					>
+						<h5>
+							<%= HtmlUtil.escape(entry.getName()) %>
+						</h5>
 
-			<liferay-ui:search-container-column-jsp
-				path="/html/guestbookmvcportlet/guestbook_actions.jsp"
-			/>
+						<h6 class="text-default">
+							<span><%= HtmlUtil.escape(entry.getMessage()) %></span>
+						</h6>
+					</liferay-ui:search-container-column-text>
+
+					<liferay-ui:search-container-column-jsp
+						path="/html/guestbookmvcportlet/guestbook_actions.jsp"
+					/>
+				</c:when>
+				<c:when test='<%= Objects.equals(displayStyle, "list") %>'>
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-content"
+						property="message"
+					/>
+
+					<liferay-ui:search-container-column-text
+						cssClass="table-cell-content"
+						property="name"
+					/>
+
+					<liferay-ui:search-container-column-jsp
+						path="/html/guestbookmvcportlet/guestbook_actions.jsp"
+					/>
+				</c:when>
+			</c:choose>
 		</liferay-ui:search-container-row>
 
 		<liferay-ui:search-iterator displayStyle="<%= displayStyle %>" markupView="lexicon" />

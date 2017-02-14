@@ -43,7 +43,8 @@ page import="com.liferay.portal.kernel.util.OrderByComparator" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.StringPool" %>
 
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List" %><%@
+page import="java.util.Objects" %>
 
 <liferay-frontend:defineObjects />
 
