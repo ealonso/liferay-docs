@@ -58,7 +58,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 		<aui:button onClick="<%= addGuestbookURL %>" value="Add Guestbook" />
 	</c:if>
 
-	<c:if test='<%= GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'>
+	<c:if test='<%= (guestbookId > 0) && GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'>
 		<portlet:renderURL var="addEntryURL">
 			<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/edit_entry.jsp" />
 			<portlet:param name="guestbookId" value="<%= String.valueOf(guestbookId) %>" />
