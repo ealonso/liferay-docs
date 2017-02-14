@@ -30,7 +30,6 @@ Entry entry = (Entry)row.getObject();
 		</portlet:renderURL>
 
 		<liferay-ui:icon
-			image="edit"
 			message="Edit"
 			url="<%= editURL.toString() %>"
 		/>
@@ -45,7 +44,7 @@ Entry entry = (Entry)row.getObject();
 		/>
 
 		<liferay-ui:icon
-			image="permissions"
+			message="Permissions"
 			url="<%= permissionsURL %>"
 		/>
 	</c:if>
