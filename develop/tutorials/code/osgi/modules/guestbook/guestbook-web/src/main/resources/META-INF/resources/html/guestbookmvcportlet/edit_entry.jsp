@@ -34,7 +34,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 
 <portlet:actionURL name="addEntry" var="addEntryURL" />
 
-<aui:form action="<%= addEntryURL %>" name="fm">
+<aui:form action="<%= addEntryURL %>" cssClass="container-fluid-1280" name="fm">
 	<aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
 
 	<aui:fieldset>
