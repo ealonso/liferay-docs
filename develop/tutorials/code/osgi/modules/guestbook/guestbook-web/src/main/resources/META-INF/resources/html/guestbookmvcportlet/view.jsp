@@ -18,6 +18,8 @@
 
 <%
 long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
+
+String displayStyle = ParamUtil.getString(request, "displayStyle", "list");
 %>
 
 <aui:nav-bar markupView="lexicon">
@@ -44,6 +46,21 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 
 	</aui:nav>
 </aui:nav-bar>
+
+<liferay-portlet:renderURL varImpl="viewPageURL">
+	<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
+	<portlet:param name="guestbookId" value="<%= String.valueOf(guestbookId) %>" />
+</liferay-portlet:renderURL>
+
+<liferay-frontend:management-bar>
+	<liferay-frontend:management-bar-buttons>
+		<liferay-frontend:management-bar-display-buttons
+			displayViews='<%= new String[] {"list"} %>'
+			portletURL="<%= viewPageURL %>"
+			selectedDisplayStyle="<%= displayStyle %>"
+		/>
+	</liferay-frontend:management-bar-buttons>
+</liferay-frontend:management-bar>
 
 <aui:button-row cssClass="guestbook-buttons">
 	<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'>
