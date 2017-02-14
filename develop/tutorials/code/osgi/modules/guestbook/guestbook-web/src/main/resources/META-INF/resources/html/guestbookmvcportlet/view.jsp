@@ -105,15 +105,16 @@ if (orderByCol.equals("name")) {
 			modelVar="entry"
 		>
 			<liferay-ui:search-container-column-text
+				cssClass="table-cell-content"
 				property="message"
 			/>
 
 			<liferay-ui:search-container-column-text
+				cssClass="table-cell-content"
 				property="name"
 			/>
 
 			<liferay-ui:search-container-column-jsp
-				align="right"
 				path="/html/guestbookmvcportlet/guestbook_actions.jsp"
 			/>
 		</liferay-ui:search-container-row>
