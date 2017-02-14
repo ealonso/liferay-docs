@@ -92,25 +92,6 @@ if (orderByCol.equals("name")) {
 	</liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
 
-<aui:button-row cssClass="guestbook-buttons">
-	<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'>
-		<portlet:renderURL var="addGuestbookURL">
-			<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/edit_guestbook.jsp" />
-		</portlet:renderURL>
-
-		<aui:button onClick="<%= addGuestbookURL %>" value="Add Guestbook" />
-	</c:if>
-
-	<c:if test='<%= (guestbookId > 0) && GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'>
-		<portlet:renderURL var="addEntryURL">
-			<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/edit_entry.jsp" />
-			<portlet:param name="guestbookId" value="<%= String.valueOf(guestbookId) %>" />
-		</portlet:renderURL>
-
-		<aui:button onClick="<%= addEntryURL %>" value="Add Entry" />
-	</c:if>
-</aui:button-row>
-
 <liferay-ui:search-container
 	total="<%= EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestbookId) %>"
 >
