@@ -37,17 +37,19 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 <aui:form action="<%= addEntryURL %>" cssClass="container-fluid-1280" name="fm">
 	<aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
 
-	<aui:fieldset>
-		<aui:input name="name" />
+	<aui:fieldset-group markupView="lexicon">
+		<aui:fieldset>
+			<aui:input name="name" />
 
-		<aui:input name="email" />
+			<aui:input name="email" />
 
-		<aui:input name="message" />
+			<aui:input name="message" />
 
-		<aui:input name="entryId" type="hidden" />
+			<aui:input name="entryId" type="hidden" />
 
-		<aui:input name="guestbookId" type="hidden" value="<%= entry == null ? guestbookId : entry.getGuestbookId() %>" />
-	</aui:fieldset>
+			<aui:input name="guestbookId" type="hidden" value="<%= entry == null ? guestbookId : entry.getGuestbookId() %>" />
+		</aui:fieldset>
+	</aui:fieldset-group>
 
 	<aui:button-row>
 		<aui:button cssClass="btn-lg" type="submit" />

@@ -23,9 +23,11 @@
 <portlet:actionURL name="addGuestbook" var="addGuestbookURL" />
 
 <aui:form action="<%= addGuestbookURL %>" cssClass="container-fluid-1280" name="fm">
-	<aui:fieldset>
-		<aui:input name="name" />
-	</aui:fieldset>
+	<aui:fieldset-group markupView="lexicon">
+		<aui:fieldset>
+			<aui:input name="name" />
+		</aui:fieldset>
+	</aui:fieldset-group>
 
 	<aui:button-row>
 		<aui:button cssClass="btn-lg" type="submit" />
