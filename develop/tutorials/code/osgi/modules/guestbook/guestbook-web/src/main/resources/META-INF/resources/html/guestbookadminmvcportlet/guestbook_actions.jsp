@@ -31,7 +31,6 @@ Guestbook guestbook = (Guestbook)row.getObject();
 		</portlet:renderURL>
 
 		<liferay-ui:icon
-			image="edit"
 			message="Edit"
 			url="<%= editURL.toString() %>"
 		/>
@@ -46,7 +45,7 @@ Guestbook guestbook = (Guestbook)row.getObject();
 		/>
 
 		<liferay-ui:icon
-			image="permissions"
+			message="permissions"
 			url="<%= permissionsURL %>"
 		/>
 	</c:if>
