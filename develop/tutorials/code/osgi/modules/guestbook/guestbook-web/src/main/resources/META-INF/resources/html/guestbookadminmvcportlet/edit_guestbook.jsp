@@ -41,7 +41,7 @@ renderResponse.setTitle(headerTitle);
 
 <portlet:actionURL name='<%= (guestbook == null) ? "addGuestbook" : "updateGuestbook" %>' var="editGuestbookURL" />
 
-<aui:form action="<%= editGuestbookURL %>" name="fm">
+<aui:form action="<%= editGuestbookURL %>" cssClass="container-fluid-1280" name="fm">
 	<aui:model-context bean="<%= guestbook %>" model="<%= Guestbook.class %>" />
 
 	<aui:input name="guestbookId" type="hidden" value="<%= guestbook == null ? StringPool.BLANK : guestbook.getGuestbookId() %>" />
