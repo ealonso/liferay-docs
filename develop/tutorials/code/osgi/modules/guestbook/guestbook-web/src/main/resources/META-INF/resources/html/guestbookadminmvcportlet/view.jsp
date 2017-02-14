@@ -18,6 +18,22 @@
 
 <%
 String displayStyle = ParamUtil.getString(request, "displayStyle", "list");
+
+String orderByCol = ParamUtil.getString(request, "orderByCol", "name");
+
+boolean orderByAsc = false;
+
+String orderByType = ParamUtil.getString(request, "orderByType", "asc");
+
+if (orderByType.equals("asc")) {
+	orderByAsc = true;
+}
+
+OrderByComparator orderByComparator = null;
+
+if (orderByCol.equals("name")) {
+	orderByComparator = new GuestbookNameComparator(orderByAsc);
+}
 %>
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
@@ -44,6 +60,13 @@ String displayStyle = ParamUtil.getString(request, "displayStyle", "list");
 			navigationKeys='<%= new String[] {"all"} %>'
 			portletURL="<%= viewPageURL %>"
 		/>
+
+		<liferay-frontend:management-bar-sort
+			orderByCol="<%= orderByCol %>"
+			orderByType="<%= orderByType %>"
+			orderColumns='<%= new String[] {"name"} %>'
+			portletURL="<%= viewPageURL %>"
+		/>
 	</liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
 
@@ -51,7 +74,7 @@ String displayStyle = ParamUtil.getString(request, "displayStyle", "list");
 	total="<%= GuestbookLocalServiceUtil.getGuestbooksCount(scopeGroupId) %>"
 >
 	<liferay-ui:search-container-results
-		results="<%= GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd()) %>"
+		results="<%= GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd(), orderByComparator) %>"
 	/>
 
 	<liferay-ui:search-container-row

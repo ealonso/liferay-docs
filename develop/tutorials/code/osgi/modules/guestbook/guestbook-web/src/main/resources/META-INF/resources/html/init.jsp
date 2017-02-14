@@ -34,6 +34,7 @@ page import="com.liferay.docs.guestbook.service.permission.GuestbookModelPermiss
 page import="com.liferay.docs.guestbook.service.permission.GuestbookPermission" %><%@
 page import="com.liferay.docs.guestbook.util.WebKeys" %><%@
 page import="com.liferay.docs.guestbook.util.comparator.EntryNameComparator" %><%@
+page import="com.liferay.docs.guestbook.util.comparator.GuestbookNameComparator" %><%@
 page import="com.liferay.portal.kernel.model.PersistedModel" %><%@
 page import="com.liferay.portal.kernel.dao.search.ResultRow" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchEntry" %><%@
