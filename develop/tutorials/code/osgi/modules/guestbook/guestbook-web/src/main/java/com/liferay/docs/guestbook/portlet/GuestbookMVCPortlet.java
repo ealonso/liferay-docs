@@ -195,7 +195,7 @@ public class GuestbookMVCPortlet extends MVCPortlet {
 				guestbookId = guestbook.getGuestbookId();
 			}
 
-			if (!(guestbookId > 0)) {
+			if (guestbookId == 0) {
 				guestbookId = guestbooks.get(0).getGuestbookId();
 			}
 

@@ -25,9 +25,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 	<%
 	List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
 
-	for (int i = 0; i < guestbooks.size(); i++) {
-		Guestbook curGuestbook = (Guestbook)guestbooks.get(i);
-
+	for (Guestbook curGuestbook : guestbooks) {
 		String cssClass = StringPool.BLANK;
 
 		if (curGuestbook.getGuestbookId() == guestbookId) {
@@ -57,7 +55,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 			<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/edit_guestbook.jsp" />
 		</portlet:renderURL>
 
-		<aui:button onClick="<%= addGuestbookURL.toString() %>" value="Add Guestbook" />
+		<aui:button onClick="<%= addGuestbookURL %>" value="Add Guestbook" />
 	</c:if>
 
 	<c:if test='<%= GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'>
@@ -66,7 +64,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 			<portlet:param name="guestbookId" value="<%= String.valueOf(guestbookId) %>" />
 		</portlet:renderURL>
 
-		<aui:button onClick="<%= addEntryURL.toString() %>" value="Add Entry" />
+		<aui:button onClick="<%= addEntryURL %>" value="Add Entry" />
 	</c:if>
 </aui:button-row>
 
@@ -74,7 +72,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 	total="<%= EntryLocalServiceUtil.getEntriesCount() %>"
 >
 	<liferay-ui:search-container-results
-		results="<%= EntryLocalServiceUtil.getEntries(scopeGroupId.longValue(), guestbookId, searchContainer.getStart(), searchContainer.getEnd()) %>"
+		results="<%= EntryLocalServiceUtil.getEntries(scopeGroupId, guestbookId, searchContainer.getStart(), searchContainer.getEnd()) %>"
 	/>
 
 	<liferay-ui:search-container-row

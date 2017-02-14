@@ -27,10 +27,14 @@ Guestbook guestbook = (Guestbook)row.getObject();
 		<portlet:renderURL var="editURL">
 			<portlet:param name="guestbookId" value="<%= String.valueOf(guestbook.getGuestbookId()) %>" />
 			<portlet:param name="mvcPath" value="/html/guestbookadminmvcportlet/edit_guestbook.jsp" />
-			<portlet:param name="redirect" value="${currentURL}" />
+			<portlet:param name="redirect" value="<%= currentURL %>" />
 		</portlet:renderURL>
 
-		<liferay-ui:icon image="edit" message="Edit" url="<%= editURL.toString() %>" />
+		<liferay-ui:icon
+			image="edit"
+			message="Edit"
+			url="<%= editURL.toString() %>"
+		/>
 	</c:if>
 
 	<c:if test="<%= GuestbookPermission.contains(permissionChecker, guestbook.getGuestbookId(), ActionKeys.PERMISSIONS) %>">
@@ -41,16 +45,19 @@ Guestbook guestbook = (Guestbook)row.getObject();
 			var="permissionsURL"
 		/>
 
-		<liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />
+		<liferay-ui:icon
+			image="permissions"
+			url="<%= permissionsURL %>"
+		/>
 	</c:if>
 
 	<c:if test="<%= GuestbookPermission.contains(permissionChecker, guestbook.getGuestbookId(), ActionKeys.DELETE) %>">
 		<portlet:actionURL name="deleteGuestbook" var="deleteURL">
-			<portlet:param name="guestbookId"
-				value="<%= String.valueOf(guestbook.getGuestbookId()) %>"
-			/>
+			<portlet:param name="guestbookId" value="<%= String.valueOf(guestbook.getGuestbookId()) %>" />
 		</portlet:actionURL>
 
-		<liferay-ui:icon-delete url="<%= deleteURL.toString() %>" />
+		<liferay-ui:icon-delete
+			url="<%= deleteURL.toString() %>"
+		/>
 	</c:if>
 </liferay-ui:icon-menu>
