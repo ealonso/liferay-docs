@@ -33,11 +33,13 @@ page import="com.liferay.docs.guestbook.service.permission.EntryPermission" %><%
 page import="com.liferay.docs.guestbook.service.permission.GuestbookModelPermission" %><%@
 page import="com.liferay.docs.guestbook.service.permission.GuestbookPermission" %><%@
 page import="com.liferay.docs.guestbook.util.WebKeys" %><%@
+page import="com.liferay.docs.guestbook.util.comparator.EntryNameComparator" %><%@
 page import="com.liferay.portal.kernel.model.PersistedModel" %><%@
 page import="com.liferay.portal.kernel.dao.search.ResultRow" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchEntry" %><%@
 page import="com.liferay.portal.kernel.security.permission.ActionKeys" %><%@
 page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
+page import="com.liferay.portal.kernel.util.OrderByComparator" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.StringPool" %>
 
