@@ -94,6 +94,7 @@ if (orderByCol.equals("name")) {
 
 <div class="container-fluid-1280">
 	<liferay-ui:search-container
+		emptyResultsMessage="no-results-were-found"
 		total="<%= EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestbookId) %>"
 	>
 		<liferay-ui:search-container-results
