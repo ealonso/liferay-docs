@@ -69,7 +69,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 </aui:button-row>
 
 <liferay-ui:search-container
-	total="<%= EntryLocalServiceUtil.getEntriesCount() %>"
+	total="<%= EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestbookId) %>"
 >
 	<liferay-ui:search-container-results
 		results="<%= EntryLocalServiceUtil.getEntries(scopeGroupId, guestbookId, searchContainer.getStart(), searchContainer.getEnd()) %>"
