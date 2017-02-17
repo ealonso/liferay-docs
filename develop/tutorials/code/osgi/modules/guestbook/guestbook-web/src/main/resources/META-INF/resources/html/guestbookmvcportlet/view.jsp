@@ -66,6 +66,9 @@ if (orderByCol.equals("name")) {
 <liferay-portlet:renderURL varImpl="viewPageURL">
 	<portlet:param name="mvcPath" value="/html/guestbookmvcportlet/view.jsp" />
 	<portlet:param name="guestbookId" value="<%= String.valueOf(guestbookId) %>" />
+	<portlet:param name="displayStyle" value="<%= displayStyle %>" />
+	<portlet:param name="orderByCol" value="<%= orderByCol %>" />
+	<portlet:param name="orderByType" value="<%= orderByType %>" />
 </liferay-portlet:renderURL>
 
 <liferay-frontend:management-bar>
