@@ -82,6 +82,8 @@ public class GuestbookPortletToolbarContributor
 
 			addEntryURL.setParameter(
 				"mvcPath", "/html/guestbookmvcportlet/edit_entry.jsp");
+			addEntryURL.setParameter(
+				"guestbookId", String.valueOf(guestbookId));
 
 			addEntryURLMenuItem.setURL(addEntryURL.toString());
 
